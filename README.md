@@ -1,5 +1,5 @@
 # Campus QR System
-Campus QR system is created to trace the primary and secondary contact of the staff/employees of a organisation. The system contains two modules,  The module is Android app which is created to scan the QR code and Admin web interface which is created to view all the entries.
+Campus QR system is created to trace the primary and secondary contact of the staff/employees of a organisation. The system contains two modules,  The first module is Android app which is created to scan the QR code and Admin web interface which is created to view all the entries.
 
 ## Android App- Technologies used
 
