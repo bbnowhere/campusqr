@@ -4,7 +4,7 @@ Campus QR system is created to trace the primary and secondary contact of the st
 ## Android App- Technologies used
 
 nmp (node package manager)/ node.js **Version 14**.
-React Native for front end development of an App.
+React Native for front/back end development of an App.
 
 
 ##  Web Application Admin Interface - Technologies used
