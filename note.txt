@@ -1,0 +1,6 @@
+databaseusername: u416503160_campusqr
+database password: Alok@123
+
+
+site admin: admin
+site password: admin123

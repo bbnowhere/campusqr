@@ -1,0 +1,30 @@
+<?php
+include "db.php";
+
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+//$url = 'https://www.geeksforgeeks.org/scandata?device=test&mail=amit1998@gmail.com&qrid=1010&date=2016-03-28 16:00:00';
+$url_components = parse_url($url);
+$data=$url_components['query'];
+$sqlliteparams = json_decode($data,TRUE);
+
+print_r($data);die();
+
+$sqlliteparams2 = json_decode([{"email":"test@gmail.com","date_time":"30-8-2022 8:28:57","scanned_value":"1010","device_id":"1010","id":1}],TRUE);
+
+
+if(!empty($sqlliteparams))
+{
+foreach($sqlliteparams as $values)
+{
+global $conn;
+    //Insert query
+         $sql = "INSERT INTO scandata (device,mail,qrid,date) VALUES ('".$values['device_id']."', '".$values['email']."', '".$values['scanned_value']."', '".$values['date_time']."')";
+         if ($conn->query($sql) === TRUE) {
+            echo "<br>data added successfully";
+         } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+         }
+}
+}
+?> 

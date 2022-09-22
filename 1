@@ -1,0 +1,93 @@
+<?php error_reporting (E_ALL ^ E_NOTICE); ?> 
+<?php
+session_start();
+if (! empty($_SESSION["username"])) {
+    $name = $_SESSION["username"];
+} else {
+    session_unset();
+    $url = "./index.php";
+    header("Location: $url");
+}
+session_write_close();
+?>
+<HTML>
+<HEAD>
+<TITLE>Welcome</TITLE>
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css"
+	crossorigin="anonymous">
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<link href="vendor/fontawesome-free-5.15.3-web/css/all.css"
+	rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
+</HEAD>
+<BODY class="">
+	<div class="row">
+		<div class="col-md-12 text-center mt-5">
+			<h1> CAMPUS  QR<h1> 
+<h2><?php echo "Login user " . $name;?></h2>
+		</div>
+
+<table class="table table-bordered" style="width:50%">
+   <tr>
+   <td> ID </td>
+   <td> Name </td>
+   <td> Section </td>
+   <td> Scan Location </td>
+   <td> Scan Time </td>
+
+<?php
+include "db.php";
+
+global $conn;
+
+?>
+
+<form action="" method="post">
+<div>
+Sector Name: <select name="rname">
+<?php
+$resources = "SELECT locationname from qr";
+$resour1 = $conn->query($resources);
+
+while($row = $resour1->fetch_assoc())
+{
+	print_r($row[locationname]);die();
+echo "<option value='$row[locationname]'>" . $row['locationname'] . "</option>";
+}
+?>
+</select>
+</div>
+      <input type="button" style="width: 250px;" class="btn btn-primary" name="submit" value="Submit">
+</form>
+</br>
+</br>
+<?php
+$sql = "select a.id ,a.name,a.section,c.locationname,b.date from userreg a INNER JOIN scandata b on a.mail=b.mail INNER JOIN qr c on  c.qrid = b.qrid where c.locationname='".$_POST['rname']."'";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+  // output data of each row
+  while($row = $result->fetch_assoc()) {
+    ?>
+   <tr>
+   <td><?php echo $row["id"] ?></td>
+   <td><?php echo $row["name"] ?></td>
+   <td><?php echo $row["section"]?> </td>
+   <td><?php echo $row["locationname"]?> </td>
+   <td><?php echo $row["date"]?> </td>
+ </tr>
+   <tr>
+<?php
+  }
+} else {
+  echo "0 results";
+}
+$conn->close();
+?>
+</BODY>
+</HTML>
