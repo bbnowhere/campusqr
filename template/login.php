@@ -1,3 +1,4 @@
+/* template for login.php */
 <div id="template-bg-1">
 	<div
 		class="d-flex flex-column min-vh-100 justify-content-center align-items-center">

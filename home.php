@@ -1,6 +1,8 @@
 <?php
 include "db.php";
 global $conn;
+
+// start of the session to check the username
 session_start();
 if (! empty($_SESSION["username"])) {
     $name = $_SESSION["username"];
@@ -12,6 +14,7 @@ if (! empty($_SESSION["username"])) {
 session_write_close();
 ?>
 
+<!-- part of the HTML design -->
 <HTML>
 <HEAD>
 <TITLE>Welcome</TITLE>
@@ -90,6 +93,7 @@ echo "<option value='$row[locationname]'>" . $row['locationname'] . "</option>";
       
 </br>
 </br>
+<!-- Code to show the table of entries -->
 <?php
 $sql = "select DISTINCT b.date ,a.name,a.section,c.locationname from userreg a INNER JOIN scandata b on a.mail=b.mail INNER JOIN qr c on  c.qrid = b.qrid where c.locationname='".$_POST['rname']."'";
 $result = $conn->query($sql);

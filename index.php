@@ -1,6 +1,6 @@
 <?php
 namespace Alokb;
-
+// Login Page 
 if (! empty($_POST["login-btn"])) {
     require_once __DIR__ . '/lib/User.php';
     $user = new User();

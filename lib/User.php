@@ -1,6 +1,6 @@
 <?php
 namespace Alokb;
-
+// code for checking the login verification
 class User
 {
 

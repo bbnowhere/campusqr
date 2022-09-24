@@ -1,5 +1,5 @@
 <?php
-// print_r($_GET);
+// store the mysql credentials into database
 $servername = "localhost";
 $username = "u416503160_campusqr";
 $password = "Alok@123";

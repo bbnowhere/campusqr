@@ -1,15 +1,17 @@
 <?php
 include "db.php";
-
+/* To take query from the URL */
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTP'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-//$url = 'http://172.16.110.86/login/scandata.php?[{"email":"test@gmail.com","date_time":"2022-08-30 8:28:57","scanned_value":1010,"device_id":"1010","id":1}]';
-// Prior to 5.4.7 this would show the path as "//www.example.com/path"
+/* pass the component */
 $url_components = parse_url($url);
 $data=$url_components['query'];
 $new = str_replace('%22', '"', $data);
 $new2 = str_replace('%20', ' ', $new);
+/* JSON decode of the Query parameters */
 
 $sqlliteparams = json_decode($new2,TRUE);
+
+/* Validate and insert the data into database */
 
 if(!empty($sqlliteparams))
 {
