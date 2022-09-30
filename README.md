@@ -49,8 +49,14 @@ Step 3: Put the websites files in the /var/www/html/ folder or your web server f
         
 Step 4: Configure apache to host the website along with SSL for HTTPS protocol. 
 
-Step 5: Now website will be ready. Change the URL from the App in the App.js file to point towards the website to push the data to ther server.
+Step 5: Now website will be ready. Change the URL as given below from the App in the App.js file to point towards the website to push the data to ther server.
 
-        Make sure the website is configured with https protocol without https protocol the app will not send the data to the server.
+            fetch(`https://{your website name }/campusqr/profile.php?` + JSON.stringify(this.state.form_values))
+
+            fetch(`https://{ your website name }/campusqr/scandata.php?` + JSON.stringify(this.state.form_values))
+
+            Make sure the website is configured with https protocol without https protocol the app will not send the data to the server.
+            
+We are now done with configuration. Now users can scan the QR codes placed in the different sections and authenticated users can check the data by login to the website.
         
         
