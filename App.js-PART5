@@ -1,0 +1,34 @@
+/* The below given functionality is used to check whether phone is connected to internet or not */
+  CheckConnectivity = () => {
+    // For Android devices
+    if (Platform.OS === "android") {
+      NetInfo.fetch().then(state => {
+        if (state.isConnected) {
+          this.FetchingProfileData()
+          //Alert.alert('Connected');
+        } else {
+          //Alert.alert('Not Connected');
+        }
+      });
+    } else {
+      // For iOS devices
+      NetInfo.addEventListener(
+        "connectionChange",
+        this.handleFirstConnectivityChange
+      );
+    }
+  };
+
+  handleFirstConnectivityChange = isConnected => {
+    NetInfo.removeEventListener(
+      "connectionChange",
+      this.handleFirstConnectivityChange
+    );
+
+    if (isConnected === false) {
+      //Alert.alert("You are offline!");
+    } else {
+      this.FetchingProfileData()
+      // Alert.alert("You are online!");
+    }
+  };

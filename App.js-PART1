@@ -1,0 +1,34 @@
+/* The below code is used to import the required react js components for an app */
+import React, { Component, Fragment } from 'react';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import styles from './scanStyle'
+import {
+  TouchableOpacity,
+  Text,
+  StatusBar,
+  Linking,
+  Button,
+  StyleSheet,
+  Platform,
+  Alert,
+  TextInput,
+  SafeAreaView, ScrollView, Switch, Image, ActivityIndicator, ToastAndroid,
+  AlertIOS,
+  Dimensions
+} from 'react-native';
+
+
+/* The below import is used to use sqllite from the library react-native-sqlite-storage into project,
+Similarly the other components such as webview , camera etc.. are imported from their respective libraries */
+
+
+import { openDatabase } from 'react-native-sqlite-storage';
+import { Container, Header, View, Icon, Fab, Content, ListItem, CheckBox, Body, Input, Title, Left, Right, Card, CardItem, Tab, Tabs, Item, Label } from 'native-base';
+import DeviceInfo from 'react-native-device-info';
+import { Col, Row, Grid } from "react-native-easy-grid";
+import { RNCamera } from 'react-native-camera';
+import NetInfo from "@react-native-community/netinfo";
+import t from 'tcomb-form-native';
+import { WebView } from 'react-native-webview';
+import DialogInput from 'react-native-dialog-input';
+import AutoHeightWebView from 'react-native-autoheight-webview';

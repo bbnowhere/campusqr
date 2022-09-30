@@ -1,0 +1,57 @@
+/* This is the main class of the App which extends the components without this class will not run. */
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      scan: false,
+      ScanResult: false,
+      result: null,
+      ItemsList: [],
+      FlashOn: false,
+      datetime: null,
+      Profile_values: [],
+      profile_saved: null,
+      form_values: null,
+      profile_submitted: false,
+      count_values: null,
+      connection: null,
+      profile_saved_values: null,
+      isEnabled: false,
+      setIsEnabled: false,
+      internet: null,
+      number_profile: 0,
+      device_random: null,
+      visible: false,
+      TextInputValueHolder: null,
+      buttonDisabled: false,
+    };
+    
+/* To check the QR scan data from the database before pushing to the server it is stored at the sqllite inside an app. */
+
+    db.transaction(txn => {
+      // Select all inserted records, loop over them while printing them on the console.
+      txn.executeSql('SELECT * FROM QR ORDER BY id DESC', [], (tx, results) => {
+        var temp = [];
+        for (let i = 0; i < results.rows.length; ++i) {
+          //let row = results.rows.item(i);
+          temp.push(results.rows.item(i));
+        }
+        this.setState({ ItemsList: temp, count_values: results.rows.length });
+      });
+    });
+
+/* To check the profile data/ before pushing to the server the data is stored in sqllite database at the app. */
+
+    db_profile.transaction(txn_profile => {
+      txn_profile.executeSql(
+        'SELECT * FROM Profile', [], (tx, profile_results) => {
+          var temp_profile = [];
+          for (let i = 0; i < profile_results.rows.length; ++i) {
+            temp_profile.push(profile_results.rows.item(i));
+            var stringify_json = temp_profile.map((response) => this.setState({ profile_saved_values: response }))
+          }
+          this.setState({ Profile_values: temp_profile, profile_submitted: true })
+        });
+    });
+  }
+  _menu = null;

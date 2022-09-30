@@ -1,0 +1,57 @@
+
+/* The below code is used to create the variables 
+
+In the below code we have created to databases called QrScanner.db and Profile.db to store the data into the SQLlite database
+
+
+*/
+
+var db = openDatabase({ name: 'QrScanner.db' });
+var db_profile = openDatabase({ name: 'Profile.db' });
+
+/* to get the unique ID for the device */
+var uniqueId = DeviceInfo.getUniqueId();
+
+/* to create the form */
+
+var Form = t.form.Form;
+let WebViewRef;
+
+/* Email with validation */
+
+var Email = t.refinement(t.String, email_value => {
+  const reg = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/; //or any other regexp
+  return reg.test(email_value);
+});
+
+
+/* The below code is used to define the data types for the profile fields */
+
+var User = t.struct({
+  email: Email,
+  name: t.String,
+  contact: t.Number,
+  sector: t.String
+});
+
+/* Field variables of the form with error message on validation */
+
+var options = {
+  fields: {
+    name: {
+      error: 'Enter your name'
+    },
+    email: {
+      error: 'Invalid Email'
+    },
+    contact: {
+      error: 'Invalid Number'
+    },
+    sector: {
+      sectorel: 'Office',
+      error: 'Office name'
+    }
+  },
+  order: ['name', 'email', 'contact', 'sector']
+};
+

@@ -1,0 +1,53 @@
+/* push data to the server profile and scan data */
+ FetchingProfileData = () => {
+    const there = this;
+    if (this.state.Profile_values != null) {
+      fetch(`https://{YOUR WEBSITE URL}/campusqr/profile.php?` + JSON.stringify(this.state.Profile_values))
+        .then(
+          function (response) {
+            if (response.status !== 200) {
+           // console.log('this.state.Profile_values');
+              return;
+            }
+                  else
+                  {
+                           there.FetchingData();
+                  }
+    });
+    } else {
+      fetch(`https://{ YOUR WEBSITE URL}/campusqr/profile.php?` + JSON.stringify(this.state.form_values))
+        .then(
+          function (response) {
+            if (response.status !== 200) {
+              //console.log('Problem in fetching');
+              return;
+            }
+            response.text().then(function (data) {
+              const fetched_data = JSON.parse(data);
+              if (fetched_data.data === 'Synced') {
+                there.FetchingData();
+              }
+            //console.log(url_data);
+            });
+          }
+        );
+    }
+  }
+/* push the QR code scan data to the server */
+  FetchingData = () => {
+    const that = this;
+         fetch(`https://{ Your Website URL }/campusqr/scandata.php/?` + JSON.stringify(this.state.ItemsList))
+	  .then(
+        function (response) {
+          if (response.status !== 200) {
+            var url_data = 'Problem in fetching';
+            that.setState({ connection: url_data })
+            return;
+          }
+          response.text().then(function (data) {
+            var url_data = JSON.parse(data);
+            that.setState({ connection: url_data.data })
+          });
+        }
+      );
+  }

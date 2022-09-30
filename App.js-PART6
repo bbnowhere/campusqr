@@ -1,0 +1,97 @@
+/*  
+
+
+onSuccess = (e) => {
+    this.setState({
+      result: e,
+      scan: false,
+      ScanResult: true,
+      datetime: ((new Date().getDate()) + '-' + (new Date().getMonth() + 1) + '-' + (new Date().getFullYear())) + ' ' + ((new Date().getHours()) + ':' + (new Date().getMinutes()) + ':' + (new Date().getSeconds()))
+    })
+    db.transaction(txn => {
+      // Create the table and define the properties of the columns
+      txn.executeSql('CREATE TABLE IF NOT EXISTS QR(id INTEGER PRIMARY KEY NOT NULL, scanned_value CHAR(255), device_id CHAR(255), date_time CHAR(255), email CHAR(255))', []);
+      var saved_value = this.state.Profile_values.map((email_values) => email_values.email);
+      // Insert a record into the database
+      txn.executeSql('INSERT INTO QR (scanned_value, device_id, date_time, email) VALUES (?,?,?,?)', [e.data, uniqueId, this.state.datetime, saved_value.toString()]);
+      //txn.executeSql('DROP TABLE Qr');
+      txn.executeSql(
+        'SELECT * FROM QR ORDER BY id DESC', [], (tx, results) => {
+          var temp = [];
+          for (let i = 0; i < results.rows.length; ++i) {
+            temp.push(results.rows.item(i));
+            this.setState({
+              ItemsList: temp, count_values: results.rows.length
+            });
+          }
+        }
+      );
+    });
+    this.CheckConnectivity()
+    Alert.alert("QR Code Scan Complete");
+  }
+
+/* This function check whether the profile is submitted or not the it alerts the user to submit the profile first before scanning. If the profile is submitted then user can able to scan the entries. */ 
+  activeQR = () => {
+    if (this.state.profile_submitted == true) {
+        this.setState({
+          scan: true
+        })
+        this.CheckConnectivity()
+      }
+     else {
+      Alert.alert('Please Submit Your Profile');
+    }
+  }
+  scanAgain = () => {
+    this.setState({
+      scan: true,
+      ScanResult: false
+    })
+    this.CheckConnectivity()
+  }
+  setMenuRef = ref => {
+    this._menu = ref;
+  };
+
+  hideMenu = () => {
+    this._menu.hide();
+  };
+
+  showMenu = () => {
+    this._menu.show();
+  };
+
+/* This functionality handles the profile submission when the profile is submitted by the user it is stored in the sqllite database or when the user updates the sqllite database table. */
+  handleFormSubmit = () => {
+    var value = this._form.getValue();
+    db_profile.transaction(txn_profile => {
+      txn_profile.executeSql('CREATE TABLE IF NOT EXISTS Profile(name CHAR(255), email CHAR(255), contact CHAR(255), sector CHAR(255))', []);
+      txn_profile.executeSql(
+        "SELECT * FROM Profile", [],
+        function (tx, res) {
+          if (res.rows.length == 0) {
+            txn_profile.executeSql('INSERT INTO Profile (name, email, contact, sector) VALUES (?,?,?,?)', [value.name, value.email, value.contact, value.sector]);
+          } else {
+            txn_profile.executeSql('UPDATE Profile SET name = ?, email = ?, contact = ?, sector = ?', [value.name, value.email, value.contact, value.sector]);
+          }
+        }
+      );
+
+      txn_profile.executeSql(
+        'SELECT * FROM Profile', [], (tx, profile_results) => {
+          var temp_profile = [];
+          if (profile_results.rows.length != 0) {
+            Alert.alert('Profile Submitted Successfully');
+          }
+          for (let i = 0; i < profile_results.rows.length; ++i) {
+            temp_profile.push(profile_results.rows.item(i));
+            temp_profile.map((response) => this.setState({ profile_saved_values: response }))
+            this.setState({
+              Profile_values: temp_profile, profile_submitted: true, form_values: value
+            });
+          }
+        }
+      );
+    });
+  }

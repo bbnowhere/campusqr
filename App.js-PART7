@@ -1,0 +1,60 @@
+/* This functionality is used to check the internet connectivity when the user is online it syncs the data to the server. */
+ check = (i) => {
+    if (i == 2) {
+      this.setState({ internet: 'Connected' })
+      if (this.state.Profile_values.length < 0) {
+        Alert.alert('Please Submit the profile');
+      }
+    }
+    if (i == 'Offline') {
+      this.setState({ internet: 'Not Connected' })
+    }
+  }
+ checking = (i) => {
+    NetInfo.fetch().then(state => {
+      //console.log("Connection type", state.type);
+      if (state.isConnected) {
+        this.check(i);
+      } else {
+        this.check('Offline')
+      }
+      //console.log("Is connected?", state.isConnected);
+    });
+  }
+  CheckSyncConnectivity = () => {
+    if (this.state.profile_submitted == true) {
+      // For Android devices
+      if (Platform.OS === "android") {
+        NetInfo.fetch().then(state => {
+          if (state.isConnected) {
+            this.FetchingProfileData()
+            Alert.alert('Offline Data has successfully Synced');
+          } else {
+            Alert.alert('Please Connect to Internet');
+          }
+        });
+      } else {
+        // For iOS devices
+        NetInfo.addEventListener(
+          "connectionChange",
+          this.handleSyncConnectivityChange
+        );
+      }
+    } else {
+      Alert.alert('Please Submit Your Profile');
+    }
+  };
+
+  handleSyncConnectivityChange = isConnected => {
+    NetInfo.removeEventListener(
+      "connectionChange",
+      this.handleSyncConnectivityChange
+    );
+
+    if (isConnected === false) {
+      Alert.alert('Please Connect to Internet');
+    } else {
+      this.FetchingProfileData()
+      Alert.alert('Offline Data has successfully Synced');
+    }
+  };

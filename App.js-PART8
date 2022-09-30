@@ -1,0 +1,118 @@
+/* Dynamic view layout is defined in the below code. When the profile is submitted we can see the submitted data on the front page of the application . */
+
+render() {
+    const { scan, ScanResult, result } = this.state
+    return (
+      <View style={styles.scrollViewStyle}>
+        <Tabs onChangeTab={({ i }) => { this.checking(i) }}>
+          {!scan &&
+
+
+// Navigation tabs are creating using the below functions. 
+
+            <Tab heading="Home">
+              {/* display the profile values in front page of the App */}
+              <SafeAreaView>
+                <ScrollView>
+                  <View>
+                    <Card>
+                      <CardItem header bordered>
+                        <Text>Profile</Text>
+                      </CardItem>
+                      <CardItem>
+                        <Text>Name : {this.state.Profile_values.map((email_values) => email_values.name)}</Text>
+                      </CardItem>
+                      <CardItem>
+                        <Text>Email : {this.state.Profile_values.map((email_values) => email_values.email)}</Text>
+                      </CardItem>
+                      <CardItem>
+                        <Text>Contact : {this.state.Profile_values.map((email_values) => email_values.contact)}</Text>
+                      </CardItem>
+                      <CardItem>
+                        <Text>Lab/Office : {this.state.Profile_values.map((email_values) => email_values.sector)}</Text>
+                      </CardItem>
+                    </Card>
+                  </View>
+                </ScrollView>
+              </SafeAreaView>
+              <View style={styles.submitButton}>
+                <Button title={"Scan QR Code"}
+                  color='#5067FF'
+                  onPress={this.activeQR}>
+                </Button>
+              </View>
+
+            </Tab>
+          }
+
+// My profile Tab section 
+          {!scan &&
+            <Tab heading="My Profile">
+              <View style={styles.container}>
+                <Form
+                  ref={c => this._form = c}
+                  type={User}
+                  options={options}
+                  value={this.state.form_values ? this.state.form_values : this.state.profile_saved_values}
+                />
+			       {(this.state.profile_submitted == true) ?
+                  <Button title={"Submit"} disabled
+                    color='#5067FF'
+                    onPress={this.handleFormSubmit}>
+                  </Button>
+                  :
+                  <Button title={"Submit"}
+                    color='#5067FF'
+                    onPress={this.handleFormSubmit}>
+                  </Button>
+                }
+
+              </View>
+            </Tab>
+          }
+
+// Scan button design 
+	  {scan &&
+            <Tab heading="Scan">
+              <QRCodeScanner
+                reactivate={true}
+                showMarker={true}
+                ref={(node) => { this.scanner = node }}
+                /* implement the torch functionality  */
+                flashMode={this.state.isFlashOn ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
+                onRead={this.onSuccess}
+                topContent={
+                  <View>
+                    {this.state.isFlashOn ?
+                      <Button title={"Flash Off"}
+                        color='#5067FF'
+                        onPress={() => this.setState({ isFlashOn: false })}>
+                      </Button>
+                      :
+                      <Button title={"Flash On"}
+                        color='#5067FF'
+                        onPress={() => this.setState({ isFlashOn: true })}>
+                      </Button>
+                    }
+
+                  </View>
+                }
+                bottomContent={
+                  <View>
+                    <TouchableOpacity style={styles.buttonTouchable} onPress={() => this.setState({ scan: false })}>
+                      <Text style={styles.buttonTextStyle}>Stop Scan</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                }
+              />
+            </Tab>
+          }
+        </Tabs>
+      </View>
+
+    );
+  }
+}
+
+export default App;
