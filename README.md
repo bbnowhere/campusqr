@@ -25,7 +25,7 @@ All the scanned entries will be made available to the web admin interface to the
 
 ## Installation User Guide for the website
 
-Step1 : Configure the Apache server and MYSQL database on your server as per operating system. The below is the link of installation instructions in CentOS server.
+Step1 : Configure the Apache server and MYSQL database on your server as per operating system. Below is the link of installation with instructions in CentOS server.
 
 https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-centos-7
 
@@ -41,7 +41,7 @@ Import MYSQL database. The database file is kept in the folder name sql-database
                            
                            mysql -u root -p u416503160_campusqr < u416503160_campusqr.sql
                            
-Step 3: Put the websites files in the /var/www/html/ folder or your web server folder. My Current website is hosted on the server of external service providers due to the requirement of https protocol to push the data to the server from the app.
+Step 3: Put the website's files in the /var/www/html/ folder or your web server folder. My Current website is hosted on the server of external service providers due to the requirement of https protocol to push the data to the server from the app.
 
                            cd /var/www/html/
                            mkdir campusqr
@@ -58,5 +58,3 @@ Step 5: Now website will be ready. Change the URL as given below from the App in
             Make sure the website is configured with https protocol without https protocol the app will not send the data to the server.
             
 We are now done with configuration. Now users can scan the QR codes placed in the different sections and authenticated users can check the data by login to the website.
-        
-        
