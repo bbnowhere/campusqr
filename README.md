@@ -22,3 +22,35 @@ React Native for front/back end development of an App.
 The employees of the organisation have to mandatory install an app , register their profile and scan the entries of the each sector/gate whenever they enter to the particular sector of the office. 
 
 All the scanned entries will be made available to the web admin interface to the office management. Whenever the office management noticed that someone is tested positive for COVID-19 during this time they trace the primary and secondary contacts of the positive employee using the available scanned entries and take the necessary action by intimating the primary and secondary contacts. 
+
+## Installation User Guide for the website
+
+Step1 : Configure the Apache server and MYSQL database on your server as per operating system. The below is the link of installation instructions in CentOS server.
+
+https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-centos-7
+
+Step2: 
+
+Import MYSQL database. The database file is kept in the folder name sql-database. On the Linux operating system you may use the below command to import the database 
+
+       Create a database : mysql -u root -p 
+                           create database u416503160_campusqr
+                           exit
+                   
+                           https://github.com/bbnowhere/campusqr/tree/website/sql-database
+                           
+                           mysql -u root -p u416503160_campusqr < u416503160_campusqr.sql
+                           
+Step 3: Put the websites files in the /var/www/html/ folder or your web server folder. My Current website is hosted on the server of external service providers due to the requirement of https protocol to push the data to the server from the app.
+
+                           cd /var/www/html/
+                           mkdir campusqr
+                           git clone https://github.com/bbnowhere/campusqr.git
+        
+Step 4: Configure apache to host the website along with SSL for HTTPS protocol. 
+
+Step 5: Now website will be ready. Change the URL from the App in the App.js file to point towards the website to push the data to ther server.
+
+        Make sure the website is configured with https protocol without https protocol the app will not send the data to the server.
+        
+        
