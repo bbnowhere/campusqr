@@ -57,4 +57,4 @@ Step 5: Now website will be ready. Change the URL as given below from the App in
 
             Make sure the website is configured with https protocol without https protocol the app will not send the data to the server.
             
-We are now done with configuration. Now users can scan the QR codes placed in the different sections and authenticated users can check the data by login to the website.
+We are now done with configuration. Now users can scan the QR codes (https://github.com/bbnowhere/campusqr/tree/app/QRCODES) and authenticated users can check the data by login to the website.
